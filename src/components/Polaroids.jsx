@@ -13,7 +13,7 @@ const TAPES = ['#ffd77a', '#ff9ec4', '#b9a4ff', '#7fe0d4'];
 
 export default function Polaroids({ photos }) {
   const wrapRef = useRef(null);
-  const [w, setW] = useState(() => Math.min(window.innerWidth, 1100));
+  const [w, setW] = useState(() => Math.min(window.innerWidth, 1400));
   const [visible, setVisible] = useState(false);
   const [offsets, setOffsets] = useState({});
   const [z, setZ] = useState(() => photos.map((_, i) => i + 1));
@@ -44,7 +44,7 @@ export default function Polaroids({ photos }) {
   const n = photos.length;
   const cols = w < 560 ? 2 : w < 900 ? 3 : 4;
   const cellW = w / cols;
-  const cardW = Math.min(240, cellW * 0.86);
+  const cardW = Math.min(w > 1250 ? 300 : 240, cellW * 0.86); // larger cards on big monitors
   const cellH = cardW * 1.25 + 110; // portrait photo + room for a 2–3 line caption
   const rows = Math.ceil(n / cols);
 

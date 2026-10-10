@@ -146,7 +146,7 @@ export default function Puzzle({ image, sparkles, onContinue }) {
       <div
         ref={boardRef}
         className="board"
-        style={{ aspectRatio: ratio, width: `min(92vw, 540px, ${60 * ratio}vh)`, '--n': size }}
+        style={{ aspectRatio: ratio, '--ratio': ratio, '--n': size }}
       >
         {order.map((_, tile) => {
           const slot = slotOf[tile];

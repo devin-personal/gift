@@ -25,7 +25,7 @@
 
 * { box-sizing: border-box; }
 html, body { margin: 0; }
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; overflow-x: clip; }
 body {
   background: var(--night);
   color: var(--cream);
@@ -249,6 +249,7 @@ em {
 .puzzle-help { margin: 0; color: var(--muted); font-size: 0.98rem; }
 .board {
   position: relative; touch-action: none; user-select: none;
+  width: min(92vw, 540px, calc(60vh * var(--ratio, 1)));
   border-radius: 18px; padding: 0;
   background: rgba(255, 255, 255, 0.04);
   box-shadow:
@@ -289,6 +290,33 @@ em {
   transition: opacity 0.25s;
 }
 .peek.is-on { opacity: 0.95; }
+
+/* short portrait phones (e.g. iPhone SE): tighten so the whole puzzle fits without scrolling */
+@media (orientation: portrait) and (max-height: 700px) {
+  .puzzle { padding-top: 2.6rem; padding-bottom: 1.5rem; }
+  .puzzle-head { margin-bottom: 1rem; }
+  .puzzle-head .eyebrow { margin-bottom: 0.2rem; font-size: 1.25rem; }
+  .puzzle-title { font-size: 2rem; margin-bottom: 0.35rem; }
+  .puzzle-help { font-size: 0.85rem; }
+  .board { width: min(92vw, calc(56vh * var(--ratio, 1))); }
+  .puzzle-bar { margin-top: 1rem; }
+}
+
+/* short landscape screens (phone held sideways): text left, puzzle right */
+@media (orientation: landscape) and (max-height: 560px) {
+  .puzzle {
+    display: grid; align-content: center; justify-content: center;
+    grid-template-columns: minmax(0, 340px) auto;
+    grid-template-areas: "head board" "bar board" "note board";
+    column-gap: 2rem; padding: 1rem 1.5rem; text-align: left;
+  }
+  .puzzle-head { grid-area: head; margin: 0; }
+  .puzzle-title { font-size: clamp(1.8rem, 7vh, 2.6rem); }
+  .board { grid-area: board; width: min(48vw, calc(86vh * var(--ratio, 1))); }
+  .puzzle-bar { grid-area: bar; justify-content: flex-start; margin-top: 1rem; }
+  .solved-note { grid-area: note; min-height: 0; margin-top: 1rem; }
+  .solved-sub { margin-bottom: 1rem; }
+}
 
 /* solved state: seams close, glow, light sweep */
 .is-solved .tile { padding: 0; cursor: default; }
@@ -348,7 +376,7 @@ em {
 .solved-sub { margin: 0.3rem 0 1.4rem; color: var(--muted); }
 
 /* ───────────── celebration ───────────── */
-.celebrate { position: relative; }
+.celebrate { position: relative; overflow-x: clip; } /* tilted / flying polaroids must never widen the page */
 .balloons { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
 .balloon {
   position: absolute; bottom: -160px; border-radius: 50% 50% 48% 52% / 55% 55% 45% 45%;
@@ -768,4 +796,14 @@ em {
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; }
   .balloons, .shooting-star { display: none; }
+}
+
+/* big monitors (1800px+ wide and tall enough): scale everything up a notch */
+@media (min-width: 1800px) and (min-height: 1000px) {
+  html { font-size: 118%; }
+  .board { width: min(680px, calc(62vh * var(--ratio, 1))); }
+  .memories, .wish, .letter-section { width: min(1400px, 100%); }
+  .bunting { width: min(1400px, 100%); }
+  .cake { transform: scale(1.2); margin: 2rem 0 1.5rem; }
+  .letter-paper { width: min(760px, 100%); }
 }
