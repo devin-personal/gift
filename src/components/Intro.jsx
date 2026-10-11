@@ -18,7 +18,7 @@ export default function Intro({ name, sparkles, onStart, onDone }) {
 
   return (
     <section className={`intro ${opening ? 'is-opening' : ''}`}>
-      <p className="eyebrow">oye {name}, it’s your day…</p>
+      <p className="eyebrow">oye Mommy 😂, it’s your day…</p>
       <h1 className="intro-title">
         small <em>surprise</em>
       </h1>
